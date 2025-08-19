@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5ehu8ofexfe7"]
+
+[ext_resource type="Texture2D" uid="uid://c8cica0i1uss7" path="res://sprite/circle-removebg-preview.png" id="1_7s4qf"]
+[ext_resource type="Script" uid="uid://dpeacph4bree8" path="res://scripts/ball.gd" id="1_cxlvu"]
+[ext_resource type="AudioStream" uid="uid://bnl6ab7lvnao3" path="res://assets/OnlineSound.net SFX hitHurt (1).wav" id="3_f7cbr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cxlvu"]
+
+[node name="ball" type="CharacterBody2D"]
+script = ExtResource("1_cxlvu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_cxlvu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.0826083, 0.0826083)
+texture = ExtResource("1_7s4qf")
+
+[node name="bump_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_f7cbr")

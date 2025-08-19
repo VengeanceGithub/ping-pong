@@ -1,0 +1,113 @@
+[gd_scene load_steps=11 format=3 uid="uid://cdmx33vuptoe8"]
+
+[ext_resource type="Script" uid="uid://c2rjpea05tgij" path="res://scenes/main_level.gd" id="1_qmak7"]
+[ext_resource type="PackedScene" uid="uid://bhoy8jrs7qrtm" path="res://scenes/p_1.tscn" id="1_v3uhd"]
+[ext_resource type="PackedScene" uid="uid://yryv6cov3bmt" path="res://scenes/p_2.tscn" id="2_ufxs0"]
+[ext_resource type="PackedScene" uid="uid://c5ehu8ofexfe7" path="res://scenes/ball.tscn" id="3_6we3w"]
+[ext_resource type="PackedScene" uid="uid://bd5awax1qkhvn" path="res://scenes/pause_menu.tscn" id="5_8ra5a"]
+[ext_resource type="AudioStream" uid="uid://b6t0d2vx4e7s3" path="res://assets/OnlineSound.net SFX pickupCoin.wav" id="6_bq26l"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6nngp"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bw3m6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ra5a"]
+size = Vector2(94, 708)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bq26l"]
+size = Vector2(107, 713)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_qmak7")
+
+[node name="boundary" type="Node" parent="."]
+
+[node name="top" type="StaticBody2D" parent="boundary"]
+position = Vector2(547, -1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundary/top"]
+shape = SubResource("WorldBoundaryShape2D_6nngp")
+
+[node name="bottom" type="StaticBody2D" parent="boundary"]
+position = Vector2(653, 714)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundary/bottom"]
+shape = SubResource("WorldBoundaryShape2D_bw3m6")
+
+[node name="Polygon2D" type="Polygon2D" parent="boundary"]
+invert_enabled = true
+invert_border = 10.0
+polygon = PackedVector2Array(-5, 715, 1276, 715, 1277, 0, -3, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(636, 355)
+
+[node name="ball" parent="." instance=ExtResource("3_6we3w")]
+position = Vector2(628, 357)
+
+[node name="p_1" parent="." instance=ExtResource("1_v3uhd")]
+position = Vector2(94, 334)
+
+[node name="p_2" parent="." instance=ExtResource("2_ufxs0")]
+position = Vector2(1106, 336)
+
+[node name="score area" type="Node" parent="."]
+
+[node name="p1" type="Area2D" parent="score area"]
+position = Vector2(-19, 325)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="score area/p1"]
+position = Vector2(-31, 29)
+shape = SubResource("RectangleShape2D_8ra5a")
+
+[node name="p2" type="Area2D" parent="score area"]
+position = Vector2(1290, 329)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="score area/p2"]
+position = Vector2(43.5, 30.5)
+shape = SubResource("RectangleShape2D_bq26l")
+
+[node name="score" type="Node" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="score"]
+
+[node name="player1_score_label" type="Label" parent="score/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.016
+anchor_top = 0.014
+anchor_right = 0.016
+anchor_bottom = 0.014
+offset_left = 77.52
+offset_top = -6.08
+offset_right = 266.52
+offset_bottom = 158.92
+theme_override_font_sizes/font_size = 120
+text = "0"
+
+[node name="player2_score_label" type="Label" parent="score/CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -187.0
+offset_top = 3.0
+offset_right = -8.0
+offset_bottom = 168.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 120
+text = "0"
+
+[node name="pause menu" parent="score/CanvasLayer" instance=ExtResource("5_8ra5a")]
+
+[node name="ball_position" type="Node" parent="."]
+
+[node name="ball_position" type="Node2D" parent="ball_position"]
+position = Vector2(561, 328)
+
+[node name="Node" type="Node" parent="."]
+
+[node name="score_sound" type="AudioStreamPlayer2D" parent="Node"]
+stream = ExtResource("6_bq26l")
+
+[connection signal="body_entered" from="score area/p1" to="." method="_on_p_1_body_entered"]
+[connection signal="body_entered" from="score area/p2" to="." method="_on_p_2_body_entered"]
